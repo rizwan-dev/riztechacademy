@@ -41,7 +41,16 @@ function saveToLocalJson(payload: ContactPayload){
 
 export async function saveContactSubmission(payload: ContactPayload){
   const useVercelPg = !!process.env.POSTGRES_URL || !!process.env.POSTGRES_PRISMA_URL || !!process.env.POSTGRES_URL_NON_POOLING;
-  if (useVercelPg) return saveToVercelPostgres(payload);
+  if (useVercelPg){
+    try{
+      const res = await saveToVercelPostgres(payload);
+      console.log('[Contact] Stored in Vercel Postgres', res);
+      return res;
+    }catch(err){
+      console.error('[Contact] DB write failed, falling back to local file:', (err as any)?.message);
+      return saveToLocalJson(payload);
+    }
+  }
   return saveToLocalJson(payload);
 }
 

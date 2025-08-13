@@ -12,7 +12,7 @@ function readJsonSafe(filePath: string){
   }
 }
 
-export default function Admin(){
+export default async function Admin(){
   const auth = cookies().get('admin_auth')?.value === '1';
   if (!auth){
     return (
@@ -22,11 +22,32 @@ export default function Admin(){
       </section>
     );
   }
-  const dataDir = path.join(process.cwd(), 'data');
-  const contactsFile = path.join(dataDir, 'contact-messages.json');
-  const internshipsFile = path.join(dataDir, 'internship-applications.json');
-  const contacts = fs.existsSync(contactsFile) ? readJsonSafe(contactsFile) : [];
-  const internships = fs.existsSync(internshipsFile) ? readJsonSafe(internshipsFile) : [];
+  let contacts: any[] = [];
+  let internships: any[] = [];
+  const useVercelPg = !!process.env.POSTGRES_URL || !!process.env.POSTGRES_PRISMA_URL || !!process.env.POSTGRES_URL_NON_POOLING;
+  if (useVercelPg){
+    try{
+      const { sql } = await import('@vercel/postgres');
+      const c = await sql`SELECT id, name, email, company, phone, message, created_at FROM contact_messages ORDER BY created_at DESC LIMIT 100`;
+      contacts = c.rows.map(r => ({ id: r.id, name: r.name, email: r.email, company: r.company, phone: r.phone, message: r.message, createdAt: r.created_at }));
+      const i = await sql`SELECT id, name, email, portfolio, motivation, created_at FROM internship_applications ORDER BY created_at DESC LIMIT 100`;
+      internships = i.rows.map(r => ({ id: r.id, name: r.name, email: r.email, portfolio: r.portfolio, motivation: r.motivation, createdAt: r.created_at }));
+    }catch{
+      const baseDir = process.env.VERCEL ? '/tmp' : process.cwd();
+      const dataDir = path.join(baseDir, 'data');
+      const contactsFile = path.join(dataDir, 'contact-messages.json');
+      const internshipsFile = path.join(dataDir, 'internship-applications.json');
+      contacts = fs.existsSync(contactsFile) ? readJsonSafe(contactsFile) : [];
+      internships = fs.existsSync(internshipsFile) ? readJsonSafe(internshipsFile) : [];
+    }
+  }else{
+    const baseDir = process.env.VERCEL ? '/tmp' : process.cwd();
+    const dataDir = path.join(baseDir, 'data');
+    const contactsFile = path.join(dataDir, 'contact-messages.json');
+    const internshipsFile = path.join(dataDir, 'internship-applications.json');
+    contacts = fs.existsSync(contactsFile) ? readJsonSafe(contactsFile) : [];
+    internships = fs.existsSync(internshipsFile) ? readJsonSafe(internshipsFile) : [];
+  }
 
   return (
     <section className="container-g py-14">
