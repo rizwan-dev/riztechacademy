@@ -12,8 +12,8 @@ export async function POST(req: NextRequest){
       company: data.company ? String(data.company) : undefined,
       phone: data.phone ? String(data.phone) : undefined,
       message: String(data.message || '')
-    });
-    return NextResponse.json({ ok: true, id: result.id });
+    }, { requireDbInProd: true });
+    return NextResponse.json({ ok: true, id: result.id, source: (result as any).source || 'db' });
   }catch(e:any){
     return NextResponse.json({ error: e?.message || 'Error' }, { status: 500 });
   }
