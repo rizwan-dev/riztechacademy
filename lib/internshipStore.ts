@@ -38,7 +38,16 @@ function saveToLocalJson(payload: InternshipPayload){
 
 export async function saveInternshipApplication(payload: InternshipPayload){
   const useVercelPg = !!process.env.POSTGRES_URL || !!process.env.POSTGRES_PRISMA_URL || !!process.env.POSTGRES_URL_NON_POOLING;
-  if (useVercelPg) return saveToVercelPostgres(payload);
+  if (useVercelPg){
+    try{
+      const res = await saveToVercelPostgres(payload);
+      console.log('[Internship] Stored in Vercel Postgres', res);
+      return res;
+    }catch(err){
+      console.error('[Internship] DB write failed, falling back to local file:', (err as any)?.message);
+      return saveToLocalJson(payload);
+    }
+  }
   return saveToLocalJson(payload);
 }
 
