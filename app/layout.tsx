@@ -3,6 +3,7 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Inter } from 'next/font/google';
+import { MuiProvider } from '@/components/mui-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,9 +38,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }){
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        <Header />
-        <main className="min-h-[70vh]">{children}</main>
-        <Footer />
+        <MuiProvider>
+          <Header />
+          <main className="min-h-[70vh]">{children}</main>
+          <Footer />
+        </MuiProvider>
       </body>
     </html>
   );

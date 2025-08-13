@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { GraduationCap, Code2, Users, Clock } from 'lucide-react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
+// Using Tailwind grid wrappers with MUI inputs/buttons
 
 export const metadata: Metadata = {
 	title: 'Internships',
 	description: 'Learn software development with real projects, mentorship, and a modern stack.'
 };
 
-export default function Internships(){
+export default function Internships({ searchParams }: { searchParams?: { ok?: string; source?: string } }){
+    const ok = searchParams?.ok === '1';
     return (
         <>
             <section className="container-g py-16">
@@ -15,6 +20,7 @@ export default function Internships(){
                     <div>
                         <h1 className="text-4xl md:text-5xl leading-tight">Internships</h1>
                         <p className="text-gray-700 mt-3 max-w-3xl">Kickstart your software career by working on real web, mobile, and AI projects. Learn modern engineering practices with mentorship and ship features that matter.</p>
+                        {ok && <div className="mt-4"><Alert severity="success">Thanks! Your application was submitted successfully.</Alert></div>}
                         <div className="grid sm:grid-cols-2 gap-4 mt-6">
                             {[{
                                 icon: GraduationCap,
@@ -66,23 +72,13 @@ export default function Internships(){
                     </div>
                     <form action="/api/internships" method="POST" className="card p-6 space-y-4">
                         <h2 className="font-semibold text-lg">Apply now</h2>
-                        <div>
-                            <label className="text-sm">Full name</label>
-                            <input name="name" required className="w-full mt-1 rounded-xl border p-2" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <TextField label="Full name" name="name" required fullWidth />
+                            <TextField label="Email" name="email" type="email" required fullWidth />
                         </div>
-                        <div>
-                            <label className="text-sm">Email</label>
-                            <input type="email" name="email" required className="w-full mt-1 rounded-xl border p-2" />
-                        </div>
-                        <div>
-                            <label className="text-sm">Portfolio/GitHub</label>
-                            <input name="portfolio" placeholder="https://github.com/username" className="w-full mt-1 rounded-xl border p-2" />
-                        </div>
-                        <div>
-                            <label className="text-sm">Why do you want to join?</label>
-                            <textarea name="motivation" rows={5} required className="w-full mt-1 rounded-xl border p-2"></textarea>
-                        </div>
-                        <button className="btn btn-primary">Submit application</button>
+                        <TextField label="Portfolio/GitHub" name="portfolio" placeholder="https://github.com/username" fullWidth />
+                        <TextField label="Why do you want to join?" name="motivation" multiline rows={6} required fullWidth />
+                        <Button type="submit" variant="contained" color="primary" fullWidth>Submit application</Button>
                     </form>
                 </div>
             </section>

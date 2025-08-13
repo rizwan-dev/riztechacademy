@@ -20,7 +20,7 @@ async function saveToVercelPostgres(payload: InternshipPayload){
   )`;
   const res = await sql<{ id: number }>`INSERT INTO internship_applications (name, email, portfolio, motivation)
     VALUES (${payload.name}, ${payload.email}, ${payload.portfolio || null}, ${payload.motivation}) RETURNING id`;
-  return { id: res.rows[0].id };
+  return { id: res.rows[0].id, source: 'db' as const };
 }
 
 function saveToLocalJson(payload: InternshipPayload){
@@ -33,10 +33,10 @@ function saveToLocalJson(payload: InternshipPayload){
   const record = { id, ...payload, createdAt: new Date().toISOString() };
   existing.push(record);
   fs.writeFileSync(file, JSON.stringify(existing, null, 2));
-  return { id };
+  return { id, source: 'local' as const };
 }
 
-export async function saveInternshipApplication(payload: InternshipPayload){
+export async function saveInternshipApplication(payload: InternshipPayload, options?: { requireDbInProd?: boolean }){
   const useVercelPg = !!process.env.POSTGRES_URL || !!process.env.POSTGRES_PRISMA_URL || !!process.env.POSTGRES_URL_NON_POOLING;
   if (useVercelPg){
     try{
@@ -44,7 +44,10 @@ export async function saveInternshipApplication(payload: InternshipPayload){
       console.log('[Internship] Stored in Vercel Postgres', res);
       return res;
     }catch(err){
-      console.error('[Internship] DB write failed, falling back to local file:', (err as any)?.message);
+      console.error('[Internship] DB write failed', (err as any)?.message);
+      if (options?.requireDbInProd && process.env.VERCEL){
+        throw err;
+      }
       return saveToLocalJson(payload);
     }
   }

@@ -22,7 +22,7 @@ async function saveToVercelPostgres(payload: ContactPayload){
   )`;
   const res = await sql<{ id: number }>`INSERT INTO contact_messages (name, email, company, phone, message)
     VALUES (${payload.name}, ${payload.email}, ${payload.company || null}, ${payload.phone || null}, ${payload.message}) RETURNING id`;
-  return { id: res.rows[0].id };
+  return { id: res.rows[0].id, source: 'db' as const };
 }
 
 function saveToLocalJson(payload: ContactPayload){
@@ -36,10 +36,10 @@ function saveToLocalJson(payload: ContactPayload){
   const record = { id, ...payload, createdAt: new Date().toISOString() };
   existing.push(record);
   fs.writeFileSync(file, JSON.stringify(existing, null, 2));
-  return { id };
+  return { id, source: 'local' as const };
 }
 
-export async function saveContactSubmission(payload: ContactPayload){
+export async function saveContactSubmission(payload: ContactPayload, options?: { requireDbInProd?: boolean }){
   const useVercelPg = !!process.env.POSTGRES_URL || !!process.env.POSTGRES_PRISMA_URL || !!process.env.POSTGRES_URL_NON_POOLING;
   if (useVercelPg){
     try{
@@ -47,7 +47,10 @@ export async function saveContactSubmission(payload: ContactPayload){
       console.log('[Contact] Stored in Vercel Postgres', res);
       return res;
     }catch(err){
-      console.error('[Contact] DB write failed, falling back to local file:', (err as any)?.message);
+      console.error('[Contact] DB write failed', (err as any)?.message);
+      if (options?.requireDbInProd && process.env.VERCEL){
+        throw err;
+      }
       return saveToLocalJson(payload);
     }
   }

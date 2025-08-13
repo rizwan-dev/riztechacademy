@@ -1,6 +1,10 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+// Using Tailwind grid wrappers with MUI inputs/buttons
+import Alert from '@mui/material/Alert';
 
 export default function Contact(){
   const [status,setStatus] = useState<string|undefined>();
@@ -10,7 +14,12 @@ export default function Contact(){
     const body = Object.fromEntries(fd.entries());
     const r = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
     const j = await r.json();
-    setStatus(j?.ok ? 'Thanks! We will contact you shortly.' : (j?.error || 'Something went wrong.'));
+    if(j?.ok){
+      e.currentTarget.reset();
+      setStatus('Thanks! We will contact you shortly.');
+    }else{
+      setStatus(j?.error || 'Something went wrong.');
+    }
   }
   return (
     <section className="container-g py-16">
@@ -20,15 +29,17 @@ export default function Contact(){
       </div>
       <div className="grid md:grid-cols-2 gap-10 mt-10 items-start">
         <form onSubmit={submit} className="card p-6 space-y-4">
-          <div><label className="text-sm">Name</label><input name="name" required className="w-full mt-1 rounded-xl border p-2"/></div>
-          <div><label className="text-sm">Email</label><input type="email" name="email" required className="w-full mt-1 rounded-xl border p-2"/></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><label className="text-sm">Company</label><input name="company" className="w-full mt-1 rounded-xl border p-2"/></div>
-            <div><label className="text-sm">Phone</label><input name="phone" className="w-full mt-1 rounded-xl border p-2"/></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TextField label="Name" name="name" required fullWidth />
+            <TextField label="Email" name="email" type="email" required fullWidth />
           </div>
-          <div><label className="text-sm">Message</label><textarea name="message" rows={5} required className="w-full mt-1 rounded-xl border p-2"></textarea></div>
-          <button className="btn btn-primary">Send</button>
-          {status && <p className="text-sm text-green-700" aria-live="polite">{status}</p>}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TextField label="Company" name="company" fullWidth />
+            <TextField label="Phone" name="phone" fullWidth />
+          </div>
+          <TextField label="Message" name="message" required fullWidth multiline rows={5} />
+          <Button type="submit" variant="contained" color="primary" fullWidth>Send message</Button>
+          {status && <Alert severity="success">{status}</Alert>}
         </form>
         <div className="card overflow-hidden">
           <div className="relative h-80">
