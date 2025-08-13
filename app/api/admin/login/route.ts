@@ -7,8 +7,16 @@ export async function POST(req: NextRequest){
   if(!ok){
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
-  // Stateless redirect (you can set a cookie/JWT here if desired)
-  return NextResponse.json({ ok: true });
+  // Set a simple session cookie (for demo). In production, replace with a signed JWT and proper expiry/rotation.
+  const res = NextResponse.json({ ok: true });
+  res.cookies.set('admin_auth', '1', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 8 // 8 hours
+  });
+  return res;
 }
 
 

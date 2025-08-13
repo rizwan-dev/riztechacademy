@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'RizTechAcademy builds AI-powered software for startups with a senior, product-minded team.'
+  description: 'RizTech Academy builds AI-powered software for startups with a senior, product-minded team.'
 };
 
 export default function About(){
@@ -12,7 +12,7 @@ export default function About(){
       <section className="container-g py-14">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <h1 className="text-3xl">About RizTechAcademy</h1>
+        <h1 className="text-3xl">About RizTech Academy</h1>
             <p className="text-gray-700 mt-3 max-w-3xl">We help founders and small businesses turn ideas into modern web, mobile, and AI-powered products. We combine product strategy, UX, and engineering to ship fast, measure impact, and iterate with confidence.</p>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
               <div className="card p-6">

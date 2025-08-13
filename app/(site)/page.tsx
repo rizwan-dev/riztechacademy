@@ -67,7 +67,7 @@ export default function Page(){
           </div>
           <div className="order-1 md:order-2">
             <span className="badge">Learn & grow</span>
-            <h2 className="text-2xl mt-3">Internships at RizTechAcademy</h2>
+            <h2 className="text-2xl mt-3">Internships at RizTech Academy</h2>
             <p className="text-gray-700 mt-2">Kickstart your career in software development. Work on real projects, learn modern stacks, and build a strong portfolio with mentorship.</p>
             <div className="mt-5 flex gap-3">
               <Link href="/internships" className="btn btn-primary">Explore internships</Link>

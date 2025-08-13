@@ -1,6 +1,6 @@
-# RizTechAcademy — Next.js Website (with Blog)
+# RizTech Academy — Next.js Website (with Blog)
 
-A professional site for RizTechAcademy (AI-based software solutions for startups), built on **Next.js 14 (App Router)** and **Tailwind CSS** with a working **blog** rendered from Markdown.
+A professional site for RizTech Academy (AI-based software solutions for startups), built on **Next.js 14 (App Router)** and **Tailwind CSS** with a working **blog** rendered from Markdown.
 
 ## Company Info
 - Address: 703, Jubilation, Ahwalwadi Road, Wagholi, Pune, India  
