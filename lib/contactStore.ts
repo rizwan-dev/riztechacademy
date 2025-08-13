@@ -26,7 +26,9 @@ async function saveToVercelPostgres(payload: ContactPayload){
 }
 
 function saveToLocalJson(payload: ContactPayload){
-  const dataDir = path.join(process.cwd(), 'data');
+  // On Vercel (serverless), the filesystem is read-only except for /tmp
+  const baseDir = process.env.VERCEL ? '/tmp' : process.cwd();
+  const dataDir = path.join(baseDir, 'data');
   const file = path.join(dataDir, 'contact-messages.json');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   const existing: any[] = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : [];
