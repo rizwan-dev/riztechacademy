@@ -9,7 +9,7 @@ export default function Page(){
   return (
     <div>
       <Hero />
-      <section className="container-g py-16">
+      <section className="container-g py-12 md:py-14">
         <div className="flex items-end justify-between gap-4">
           <h2 className="text-2xl">What we do</h2>
           <Link href="/services" className="btn btn-primary hidden md:inline-flex"><Zap className="mr-2" /> See our services</Link>
@@ -47,7 +47,7 @@ export default function Page(){
           <Link href="/services" className="btn btn-primary inline-flex"><Zap className="mr-2" /> See our services</Link>
         </div>
       </section>
-      <section className="bg-white py-16">
+      <section className="bg-white py-12 md:py-14">
         <div className="container-g">
           <h2 className="text-2xl mb-6">Why choose us</h2>
           <div className="grid md:grid-cols-3 gap-6">
@@ -58,7 +58,7 @@ export default function Page(){
         </div>
       </section>
 
-      <section className="container-g py-16">
+      <section className="container-g py-12 md:py-14">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="card overflow-hidden order-2 md:order-1">
             <div className="relative h-56">
@@ -74,6 +74,16 @@ export default function Page(){
               <Link href="/contact" className="btn btn-outline">Contact us</Link>
             </div>
           </div>
+        </div>
+      </section>
+      <section className="bg-white py-12 md:py-14">
+        <div className="container-g grid md:grid-cols-3 gap-6">
+          {[{label:'Fast kickoffs',desc:'We align on outcomes, scope and timelines, then ship weekly.'},{label:'Senior delivery',desc:'Small expert teams across product, design, and engineering.'},{label:'Built-in quality',desc:'Security, analytics and CI from day one—not after launch.'}].map((i,idx)=> (
+            <div key={idx} className="card p-6">
+              <h3 className="font-semibold">{i.label}</h3>
+              <p className="text-sm text-gray-700 mt-2">{i.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
       <Testimonials />

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { ClearDataButton } from '@/components/admin/clear-data-button';
 
 export const dynamic = 'force-dynamic';
 
@@ -106,11 +107,16 @@ export default async function Admin({ searchParams }: { searchParams?: Record<st
 
   return (
     <section className="container-g py-14">
-      <h1 className="text-3xl">Admin</h1>
-      <div className="mt-2 text-sm text-gray-700 flex items-center gap-3">
-        <span className="badge">Source: {usingDb ? 'Vercel Postgres' : 'Local file'}</span>
-        <span>Contacts: {contacts.length}</span>
-        <span>Internships: {internships.length}</span>
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl">Admin</h1>
+          <div className="mt-2 text-sm text-gray-700 flex items-center gap-3">
+            <span className="badge">Source: {usingDb ? 'Vercel Postgres' : 'Local file'}</span>
+            <span>Contacts: {contactsTotal}</span>
+            <span>Internships: {internshipsTotal}</span>
+          </div>
+        </div>
+        <ClearDataButton />
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 mt-8">
@@ -122,7 +128,7 @@ export default async function Admin({ searchParams }: { searchParams?: Record<st
             <input type="hidden" name="qi" value={qi} />
             <button className="btn btn-outline">Search</button>
           </form>
-          <div className="mt-4 space-y-3 max-h-[420px] overflow-auto pr-2">
+          <div className="mt-4 space-y-3 max-h-[520px] overflow-auto pr-2">
             {contacts.map((c:any)=> (
               <div key={c.id} className="rounded-lg border p-3">
                 <div className="text-sm font-medium">{c.name} — {c.email}</div>
@@ -151,7 +157,7 @@ export default async function Admin({ searchParams }: { searchParams?: Record<st
             <input type="hidden" name="qc" value={qc} />
             <button className="btn btn-outline">Search</button>
           </form>
-          <div className="mt-4 space-y-3 max-h-[420px] overflow-auto pr-2">
+          <div className="mt-4 space-y-3 max-h-[520px] overflow-auto pr-2">
             {internships.map((c:any)=> (
               <div key={c.id} className="rounded-lg border p-3">
                 <div className="text-sm font-medium">{c.name} — {c.email}</div>

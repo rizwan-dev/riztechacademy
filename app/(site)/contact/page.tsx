@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -7,18 +7,30 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 
 export default function Contact(){
-  const [status,setStatus] = useState<string|undefined>();
+  const [status,setStatus] = useState<{ kind: 'success' | 'error'; text: string }|undefined>();
+  const [loading,setLoading] = useState(false);
+  const alertRef = useRef<HTMLDivElement>(null);
   async function submit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     const body = Object.fromEntries(fd.entries());
-    const r = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
-    const j = await r.json();
-    if(j?.ok){
-      e.currentTarget.reset();
-      setStatus('Thanks! We will contact you shortly.');
-    }else{
-      setStatus(j?.error || 'Something went wrong.');
+    try{
+      setLoading(true);
+      setStatus(undefined);
+      const r = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+      const j = await r.json().catch(()=>({}));
+      if(r.ok && j?.ok){
+        form.reset();
+        setStatus({ kind: 'success', text: 'Thanks! We will contact you shortly.' });
+      }else{
+        setStatus({ kind: 'error', text: j?.error || 'Something went wrong. Please try again.' });
+      }
+    }catch(err:any){
+      setStatus({ kind: 'error', text: err?.message || 'Network error. Please try again.' });
+    }finally{
+      setLoading(false);
+      setTimeout(()=> alertRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     }
   }
   return (
@@ -38,8 +50,12 @@ export default function Contact(){
             <TextField label="Phone" name="phone" fullWidth />
           </div>
           <TextField label="Message" name="message" required fullWidth multiline rows={5} />
-          <Button type="submit" variant="contained" color="primary" fullWidth>Send message</Button>
-          {status && <Alert severity="success">{status}</Alert>}
+          <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>{loading ? 'Sending…' : 'Send message'}</Button>
+          {status && (
+            <div ref={alertRef}>
+              <Alert severity={status.kind === 'success' ? 'success' : 'error'} role="status" aria-live="polite">{status.text}</Alert>
+            </div>
+          )}
         </form>
         <div className="card overflow-hidden">
           <div className="relative h-80">
