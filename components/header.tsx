@@ -22,9 +22,9 @@ export function Header(){
       <div className="container-g flex items-center justify-between py-3">
         <Link href="/" className="flex items-center gap-2">
           <div className="relative h-8 w-8">
-            <Image src="/logo.svg" alt="RizTechAcademy" fill className="object-contain" priority />
+            <Image src="/logo.svg" alt="RizTech Academy" fill className="object-contain" priority />
           </div>
-          <span className="font-semibold">RizTechAcademy</span>
+          <span className="font-semibold">RizTech Academy</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {links.map(l => {

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,11 +13,12 @@ function readJsonSafe(filePath: string){
 }
 
 export default function Admin(){
-  if (process.env.NODE_ENV === 'production'){
+  const auth = cookies().get('admin_auth')?.value === '1';
+  if (!auth){
     return (
       <section className="container-g py-14">
         <h1 className="text-3xl">Admin</h1>
-        <p className="text-gray-700 mt-2">The admin panel is not accessible from the public site in production. Please use the dedicated admin URL.</p>
+        <p className="text-gray-700 mt-2">You are not signed in. Please visit the admin login page.</p>
       </section>
     );
   }

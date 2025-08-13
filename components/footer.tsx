@@ -8,9 +8,9 @@ export function Footer(){
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
             <div className="relative h-9 w-9 rounded-full ring-1 ring-white/20 bg-white/5 p-1">
-              <Image src="/logo.svg" alt="RizTechAcademy" fill className="object-contain" />
+              <Image src="/logo.svg" alt="RizTech Academy" fill className="object-contain" />
             </div>
-            <span className="font-semibold text-white">RizTechAcademy</span>
+            <span className="font-semibold text-white">RizTech Academy</span>
           </div>
           <p className="text-sm text-gray-400 mt-3 max-w-sm">Web, mobile, and AI solutions for startups and small businesses.</p>
         </div>
@@ -41,7 +41,7 @@ export function Footer(){
       </div>
       <div className="border-t border-white/10">
         <div className="container-g flex flex-col md:flex-row items-center justify-between py-6 text-xs text-gray-400">
-          <p>© {new Date().getFullYear()} RizTechAcademy. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} RizTech Academy. All rights reserved.</p>
         </div>
       </div>
     </footer>

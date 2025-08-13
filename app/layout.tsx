@@ -8,8 +8,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'RizTechAcademy — AI Solutions for Startups',
-    template: '%s — RizTechAcademy'
+    default: 'RizTech Academy — AI Solutions for Startups',
+    template: '%s — RizTech Academy'
   },
   description: 'We build AI-powered software solutions that help startups move faster and smarter.',
   icons: {
@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png'
   },
   openGraph: {
-    title: 'RizTechAcademy — AI Solutions for Startups',
+    title: 'RizTech Academy — AI Solutions for Startups',
     description: 'We build AI-powered software solutions that help startups move faster and smarter.',
     type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RizTechAcademy — AI Solutions for Startups',
+    title: 'RizTech Academy — AI Solutions for Startups',
     description: 'We build AI-powered software solutions that help startups move faster and smarter.'
   }
 };
