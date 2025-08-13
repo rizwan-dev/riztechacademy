@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --radius: 14px; }
+body { @apply bg-gray-50 text-gray-800; }
+
+.container-g { @apply max-w-7xl mx-auto px-4; }
+.card { @apply bg-white rounded-2xl shadow-soft ring-1 ring-gray-100; }
+.btn { @apply inline-flex items-center justify-center rounded-2xl px-4 py-2 font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand; }
+.btn-primary { @apply bg-brand text-white hover:bg-brand-dark active:brightness-95; }
+.btn-outline { @apply border border-brand text-brand hover:bg-brand/10 bg-white; }
+.navlink { @apply text-sm font-medium text-gray-700 hover:text-brand; }
+.badge { @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-brand/10 text-brand; }
+h1,h2,h3 { @apply font-semibold text-gray-900; }
+.hero-grad { background: radial-gradient(1200px 600px at top right, rgba(37,99,235,.12), transparent 70%); }
+.prose p { @apply leading-7 my-4; }
+.prose h2 { @apply text-2xl mt-8 mb-3; }
+.prose ul { @apply list-disc list-inside my-4; }
