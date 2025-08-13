@@ -24,7 +24,8 @@ async function saveToVercelPostgres(payload: InternshipPayload){
 }
 
 function saveToLocalJson(payload: InternshipPayload){
-  const dataDir = path.join(process.cwd(), 'data');
+  const baseDir = process.env.VERCEL ? '/tmp' : process.cwd();
+  const dataDir = path.join(baseDir, 'data');
   const file = path.join(dataDir, 'internship-applications.json');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   const existing: any[] = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : [];

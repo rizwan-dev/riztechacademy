@@ -12,6 +12,14 @@ function readJsonSafe(filePath: string){
 }
 
 export default function Admin(){
+  if (process.env.NODE_ENV === 'production'){
+    return (
+      <section className="container-g py-14">
+        <h1 className="text-3xl">Admin</h1>
+        <p className="text-gray-700 mt-2">The admin panel is not accessible from the public site in production. Please use the dedicated admin URL.</p>
+      </section>
+    );
+  }
   const dataDir = path.join(process.cwd(), 'data');
   const contactsFile = path.join(dataDir, 'contact-messages.json');
   const internshipsFile = path.join(dataDir, 'internship-applications.json');
