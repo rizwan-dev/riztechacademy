@@ -1,8 +1,6 @@
 'use client';
 
-import { SpeedInsights } from '@vercel/speed-insights/react';
-
-// Only keep Speed Insights for performance monitoring
+// Analytics provider - currently no external analytics services configured
 export function AnalyticsProvider() {
-  return <SpeedInsights />;
+  return null;
 }

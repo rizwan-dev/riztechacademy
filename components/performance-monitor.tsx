@@ -13,49 +13,35 @@ export function usePerformanceMonitoring() {
   useEffect(() => {
     // Monitor basic performance metrics without external dependencies
     if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
-      // Monitor navigation timing
-      const navigationObserver = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          if (entry.entryType === 'navigation') {
-            const navigationEntry = entry as PerformanceNavigationTiming;
-            const navigationData = {
-              dnsLookup: navigationEntry.domainLookupEnd - navigationEntry.domainLookupStart,
-              tcpConnect: navigationEntry.connectEnd - navigationEntry.connectStart,
-              serverResponse: navigationEntry.responseEnd - navigationEntry.requestStart,
-              pageLoad: navigationEntry.loadEventEnd - navigationEntry.navigationStart,
-              domContentLoaded: navigationEntry.domContentLoadedEventEnd - navigationEntry.navigationStart,
-            };
-
-            console.log('Navigation Timing:', navigationData);
-          }
-        }
-      });
-
-      navigationObserver.observe({ entryTypes: ['navigation'] });
-
-      // Monitor resource loading
+      // Monitor resource loading for performance insights
       const resourceObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          const resourceEntry = entry as PerformanceResourceTiming;
-          if (resourceEntry.duration > 1000) { // Only log slow resources
-            const resourceData = {
-              name: resourceEntry.name,
-              duration: resourceEntry.duration,
-              size: resourceEntry.transferSize,
-              type: resourceEntry.initiatorType,
-            };
+          if (entry.entryType === 'resource') {
+            const resourceEntry = entry as PerformanceResourceTiming;
+            if (resourceEntry.duration > 1000) { // Only log slow resources
+              const resourceData = {
+                name: resourceEntry.name,
+                duration: resourceEntry.duration,
+                size: resourceEntry.transferSize || 0,
+                type: resourceEntry.initiatorType || 'unknown',
+              };
 
-            console.log('Slow Resource:', resourceData);
+              console.log('Slow Resource:', resourceData);
+            }
           }
         }
       });
 
-      resourceObserver.observe({ entryTypes: ['resource'] });
+      try {
+        resourceObserver.observe({ entryTypes: ['resource'] });
 
-      return () => {
-        navigationObserver.disconnect();
-        resourceObserver.disconnect();
-      };
+        return () => {
+          resourceObserver.disconnect();
+        };
+      } catch (error) {
+        // Silently fail if Performance Observer is not supported
+        console.warn('Performance monitoring not supported in this browser');
+      }
     }
   }, []);
 }
