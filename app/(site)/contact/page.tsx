@@ -22,7 +22,7 @@ export default function Contact(){
       const j = await r.json().catch(()=>({}));
       if(r.ok && j?.ok){
         form.reset();
-        setStatus({ kind: 'success', text: 'Thanks! We will contact you shortly.' });
+        setStatus({ kind: 'success', text: 'Thanks for reaching out! We will contact you shortly about our free programs.' });
       }else{
         setStatus({ kind: 'error', text: j?.error || 'Something went wrong. Please try again.' });
       }
@@ -36,8 +36,8 @@ export default function Contact(){
   return (
     <section className="container-g py-16">
       <div className="max-w-3xl">
-        <h1 className="text-4xl md:text-5xl leading-tight">Contact</h1>
-        <p className="text-gray-700 mt-3">Tell us about your project — we typically reply within 1 business day.</p>
+        <h1 className="text-4xl md:text-5xl leading-tight">Get In Touch</h1>
+        <p className="text-gray-700 mt-3">Have questions about our free programs? Want to apply for our internship or mentorship programs? We&apos;d love to hear from you — we typically reply within 1 business day.</p>
       </div>
       <div className="grid md:grid-cols-2 gap-10 mt-10 items-start">
         <form onSubmit={submit} className="card p-6 space-y-4">
@@ -46,10 +46,23 @@ export default function Contact(){
             <TextField label="Email" name="email" type="email" required fullWidth />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Company" name="company" fullWidth />
+            <TextField label="College/University" name="college" fullWidth />
             <TextField label="Phone" name="phone" fullWidth />
           </div>
-          <TextField label="Message" name="message" required fullWidth multiline rows={5} />
+          <TextField
+            select
+            label="Interested in Program"
+            name="program"
+            fullWidth
+            SelectProps={{ native: true }}
+          >
+            <option value=""></option>
+            <option value="python-django">Web Development with Python & Django</option>
+            <option value="javascript-typescript">Full-Stack JavaScript & TypeScript</option>
+            <option value="android-kotlin">Android App Development with Kotlin</option>
+            <option value="general">General Inquiry</option>
+          </TextField>
+          <TextField label="Message" name="message" required fullWidth multiline rows={5} placeholder="Tell us about your background and what you're looking for..." />
           <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>{loading ? 'Sending…' : 'Send message'}</Button>
           {status && (
             <div ref={alertRef}>

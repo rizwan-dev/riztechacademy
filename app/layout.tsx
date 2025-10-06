@@ -9,10 +9,10 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'RizTech Academy — AI Solutions for Startups',
+    default: 'RizTech Academy — Free Tech Education for Students',
     template: '%s — RizTech Academy'
   },
-  description: 'We build AI-powered software solutions that help startups move faster and smarter.',
+  description: 'Non-profit organization providing free project-based training, internships, and mentorship to bridge the gap between education and industry needs.',
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -23,14 +23,14 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png'
   },
   openGraph: {
-    title: 'RizTech Academy — AI Solutions for Startups',
-    description: 'We build AI-powered software solutions that help startups move faster and smarter.',
+    title: 'RizTech Academy — Free Tech Education for Students',
+    description: 'Non-profit organization providing free project-based training, internships, and mentorship to bridge the gap between education and industry needs.',
     type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RizTech Academy — AI Solutions for Startups',
-    description: 'We build AI-powered software solutions that help startups move faster and smarter.'
+    title: 'RizTech Academy — Free Tech Education for Students',
+    description: 'Non-profit organization providing free project-based training, internships, and mentorship to bridge the gap between education and industry needs.'
   }
 };
 
