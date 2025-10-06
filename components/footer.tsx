@@ -12,7 +12,7 @@ export function Footer(){
             </div>
             <span className="font-semibold text-white">RizTech Academy</span>
           </div>
-          <p className="text-sm text-gray-400 mt-3 max-w-sm">Web, mobile, and AI solutions for startups and small businesses.</p>
+          <p className="text-sm text-gray-400 mt-3 max-w-sm">Free project-based training, internships, and mentorship to help students bridge the gap between education and industry needs.</p>
         </div>
         <div>
           <h4 className="font-semibold text-white">Company</h4>
@@ -24,11 +24,11 @@ export function Footer(){
           </ul>
         </div>
         <div>
-          <h4 className="font-semibold text-white">Services</h4>
+          <h4 className="font-semibold text-white">Programs</h4>
           <ul className="mt-3 space-y-2 text-sm">
-            <li><Link className="hover:text-white" href="/services">Web Development</Link></li>
-            <li><Link className="hover:text-white" href="/services">Mobile Development</Link></li>
-            <li><Link className="hover:text-white" href="/services">AI Bots</Link></li>
+            <li><Link className="hover:text-white" href="/internships">Project-Based Training</Link></li>
+            <li><Link className="hover:text-white" href="/internships">Internship Program</Link></li>
+            <li><Link className="hover:text-white" href="/internships">Mentorship Program</Link></li>
           </ul>
         </div>
         <div>
